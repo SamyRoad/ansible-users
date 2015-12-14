@@ -1,11 +1,13 @@
 # Users role
 
-This role is used to manage users, groups and SSH keys. You can manage almost all details of the user's account, like
-UID/GID, home directory, groups, etc. You can also revoke SSH keys and remove users.
+  [![Ansible Galaxy](http://img.shields.io/badge/ansible--galaxy-users-blue.svg)](https://galaxy.ansible.com/list#/roles/6512)
+
+  This role is used to manage users, groups and SSH keys. You can manage almost all details of the user's account, like
+  UID/GID, home directory, groups, etc. You can also revoke SSH keys and remove users.
 
 ## Requirements
 
-None.
+  None.
 
 ## Variables
 
@@ -33,7 +35,7 @@ None.
   ```
 
   Everything except `name` is optional, note that you can use all accepted attributes of Ansible
-  [user module](http://docs.ansible.com/ansible/user_module.html). 
+  [user module](http://docs.ansible.com/ansible/user_module.html).
 
   If you want to remove an existent user, you have to set `state` property to `absent` and `remove` to `yes` to remove
   user and its home directory.
