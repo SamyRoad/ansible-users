@@ -1,0 +1,31 @@
+---
+
+- name: Configure ~/.ssh/authorized_keys for users
+  authorized_key:
+    key: '{{ "\n".join(item.ssh_keys) | string }}'
+    user: "{{ item.name }}"
+  with_flattened:
+    - users_list
+  when: (item.name is defined and item.name and item.name != "root") and
+          (item.state is undefined or (item.state is defined and item.state != "absent")) and
+          (item.createhome is undefined or item.createhome) and
+          (item.ssh_keys is defined and item.ssh_keys)
+  tags:
+    - users
+    - ssh_keys
+
+- name: Remove revoked keys from user account
+  authorized_key:
+    key: '{{ "\n".join(users_revoked_ssh_keys) | string }}'
+    user: "{{ item.name }}"
+    state: absent
+  sudo_user: "{{ item.name }}"
+  with_flattened:
+    - users_list
+  when: (users_revoked_ssh_keys is defined and (users_revoked_ssh_keys | length > 0)) and
+          (item.name is defined and item.name and item.name != "root") and
+          (item.state is undefined or (item.state is defined and item.state != "absent")) and
+          (item.createhome is undefined or item.createhome)
+  tags:
+    - users
+    - ssh_keys

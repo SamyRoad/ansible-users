@@ -1,0 +1,7 @@
+---
+
+- include: users.yml
+  when: (users_list | length > 0) or (users_groups_list | length > 0)
+
+- include: ssh_keys.yml
+  when: users_list | length > 0

@@ -1,0 +1,74 @@
+---
+
+- name: Create user groups
+  group:
+    name: "{{ item.group | default(item.name) }}"
+    gid: "{{ item.gid | default(omit) }}"
+    system: "{{ item.system | default(omit) }}"
+  with_flattened:
+    - users_list
+    - users_groups_list
+  when: (item.name is defined and item.name and item.name != "root") and
+          (item.state is undefined or (item.state is defined and item.state != "absent"))
+  tags:
+    - users
+
+- name: Manage user accounts
+  user:
+    name: "{{ item.name }}"
+    uid: "{{ item.uid | default(omit) }}"
+    non_unique: "{{ item.non_unique | default(omit) }}"
+    group: "{{ item.group | default(item.name) }}"
+    groups: "{{ ','.join(item.groups) | default(omit) }}"
+    state: "{{ item.state | default(omit) }}"
+    comment: "{{ item.comment | default(omit) }}"
+    password: "{{ item.password | default(omit) }}"
+    update_password: "{{ item.update_password | default(omit) }}"
+    system: "{{ item.system | default(omit) }}"
+    shell: "{{ item.shell | default(omit) }}"
+    home: "{{ item.home | default(omit) }}"
+    createhome: "{{ item.createhome | default(omit) }}"
+    move_home: "{{ item.move_home | default(omit) }}"
+    skeleton: "{{ item.skeleton | default(omit) }}"
+    expires: "{{ item.expires | default(omit) }}"
+    remove: "{{ item.remove | default(omit) }}"
+    force: "{{ item.force | default(omit) }}"
+    generate_ssh_key: "{{ item.generate_ssh_key | default(omit) }}"
+    ssh_key_bits: "{{ item.ssh_key_bits | default(omit) }}"
+    ssh_key_comment: "{{ item.ssh_key_comment | default(omit) }}"
+    ssh_key_file: "{{ item.ssh_key_file | default(omit) }}"
+    ssh_key_passphrase: "{{ item.ssh_key_passphrase | default(omit) }}"
+    ssh_key_type: "{{ item.ssh_key_type | default(omit) }}"
+  with_flattened:
+    - users_list
+  when: (item.name is defined and item.name and item.name != "root") and
+          (item.state is undefined or (item.state is defined and item.state))
+  tags:
+    - users
+
+- name: Manage user home directories
+  file:
+    path: "{{ item.home | default('/home/' + item.name) }}"
+    state: directory
+    owner: "{{ item.name | default(omit) }}"
+    group: "{{ item.group | default(omit) }}"
+    mode: 0755
+  with_items:
+    - users_list
+  when: (item.name is defined and item.name and item.name != "root") and
+          (item.state is undefined or (item.state is defined and item.state == "present")) and
+          (item.createhome is undefined or item.createhome)
+  tags:
+    - users
+
+- name: Remove user groups
+  group:
+    name: "{{ item.group | default(item.name) }}"
+    state: absent
+  with_flattened:
+    - users_list
+    - users_groups_list
+  when: (item.name is defined and item.name and item.name != "root") and
+          (item.state is defined and item.state == "absent")
+  tags:
+    - users

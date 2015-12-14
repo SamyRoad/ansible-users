@@ -1,0 +1,17 @@
+---
+galaxy_info:
+  author: Moisés Maciá
+  description: Manage users, groups and SSH keys.
+  company: SamyRoad
+  license: MIT
+  min_ansible_version: 1.9
+  platforms:
+    - name: Ubuntu
+      versions:
+        - truty
+    - name: Debian
+      versions:
+        - wheezy
+  categories:
+    - system
+  dependencies: []

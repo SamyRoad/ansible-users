@@ -1,0 +1,37 @@
+---
+
+# users to be created
+users_list: []
+
+# An example of user entry. All except name is optional, refer to ansible user module for more information:
+#
+# users_list:
+#   - "{{ user_mmacia }}" 
+#
+# users_mmacia:
+#   name: mmacia              # Required. Also is the default group
+#   state: present            # present or absent
+#   group: users              # default group
+#   groups: []                # additional groups to set
+#   gid: 1000
+#   uid: 1000
+#   shell: "/bin/bash"
+#   comment: "GECOS field"
+#   system: False
+#   password: "secret"        # mkpasswd --method=SHA-512
+#   update_password: "always"
+#   ssh_keys: ['key1', 'key2]
+#
+
+# groups to be created
+users_groups_list: []
+
+# An example of group entry. All except name is optional, refer to ansible group module for more information:
+#
+# users_groups_list:
+#   - name: my_group
+#     state: present
+#     system: no
+#     gid: 1000
+
+users_revoked_ssh_keys: []
