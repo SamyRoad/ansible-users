@@ -8,7 +8,9 @@ galaxy_info:
   platforms:
     - name: Ubuntu
       versions:
-        - truty
+        - trusty
+        - utopic
+        - vivid
     - name: Debian
       versions:
         - wheezy
