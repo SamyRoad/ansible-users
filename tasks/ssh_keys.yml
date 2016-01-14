@@ -19,7 +19,7 @@
     key: '{{ "\n".join(users_revoked_ssh_keys) | string }}'
     user: "{{ item.name }}"
     state: absent
-  sudo_user: "{{ item.name }}"
+  become_user: "{{ item.name }}"
   with_flattened:
     - users_list
   when: (users_revoked_ssh_keys is defined and (users_revoked_ssh_keys | length > 0)) and
