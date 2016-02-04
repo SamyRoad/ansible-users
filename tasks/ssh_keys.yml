@@ -2,7 +2,7 @@
 
 - name: Configure ~/.ssh/authorized_keys for users
   authorized_key:
-    key: '{{ "\n".join(item.ssh_keys) | string }}'
+    key: "{{ item.ssh_keys | join('\n') | string }}"
     user: "{{ item.name }}"
   with_flattened:
     - users_list
@@ -16,7 +16,7 @@
 
 - name: Remove revoked keys from user account
   authorized_key:
-    key: '{{ "\n".join(users_revoked_ssh_keys) | string }}'
+    key: "{{ users_revoked_ssh_keys | join('\n') }}"
     user: "{{ item.name }}"
     state: absent
   become_user: "{{ item.name }}"
