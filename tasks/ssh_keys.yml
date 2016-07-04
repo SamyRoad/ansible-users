@@ -5,7 +5,7 @@
     key: "{{ item.ssh_keys | join('\n') | string }}"
     user: "{{ item.name }}"
   with_flattened:
-    - users_list
+    - "{{ users_list }}"
   when: (item.name is defined and item.name and item.name != "root") and
           (item.state is undefined or (item.state is defined and item.state != "absent")) and
           (item.createhome is undefined or item.createhome) and
@@ -21,7 +21,7 @@
     state: absent
   become_user: "{{ item.name }}"
   with_flattened:
-    - users_list
+    - "{{ users_list }}"
   when: (users_revoked_ssh_keys is defined and (users_revoked_ssh_keys | length > 0)) and
           (item.name is defined and item.name and item.name != "root") and
           (item.state is undefined or (item.state is defined and item.state != "absent")) and
